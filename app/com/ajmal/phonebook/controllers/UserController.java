@@ -1,4 +1,4 @@
-package com.amila.phonebook.controllers;
+package com.ajmal.phonebook.controllers;
 
 import com.ajmal.phonebook.dao.UserDao;
 import com.ajmal.phonebook.dao.impl.UserDaoImpl;
