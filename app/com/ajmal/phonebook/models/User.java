@@ -9,6 +9,8 @@ import java.util.List;
 @Entity
 public class User extends Model{
 
+    private String authToken;
+
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private long id;
@@ -29,9 +31,13 @@ public class User extends Model{
     private List<Contact> contactList;
 
 
+    public String getAuthToken() {
+        return authToken;
+    }
 
-
-
+    public void setAuthToken(String authToken) {
+        this.authToken = authToken;
+    }
 
     public long getId() {
         return id;
