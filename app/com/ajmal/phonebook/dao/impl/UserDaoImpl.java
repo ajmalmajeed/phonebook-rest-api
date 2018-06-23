@@ -31,4 +31,16 @@ public class UserDaoImpl implements UserDao {
     public User searchUser(long idToSearch) {
         return find.byId(idToSearch);
     }
+
+    @Override
+    public User findUserByToken(String authToken) {
+        return find.where().eq("authToken", authToken).findUnique();
+
+    }
+
+    @Override
+    public User findUserByUsername(String username) {
+        return find.where().eq("username", username).findUnique();
+    }
+
 }

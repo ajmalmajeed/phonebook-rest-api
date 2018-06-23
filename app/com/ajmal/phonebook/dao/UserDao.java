@@ -11,4 +11,10 @@ public interface UserDao {
     User deleteUser(User userToDelete);
 
     User searchUser(long idToSearch);
+
+    User findUserByToken(String authToken);
+
+    User findUserByUsername(String username);
+
+
 }
