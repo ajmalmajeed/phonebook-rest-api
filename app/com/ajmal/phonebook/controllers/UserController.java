@@ -2,6 +2,7 @@ package com.ajmal.phonebook.controllers;
 
 import com.ajmal.phonebook.dao.UserDao;
 import com.ajmal.phonebook.dao.impl.UserDaoImpl;
+import com.ajmal.phonebook.dto.LoginCredentials;
 import com.ajmal.phonebook.models.User;
 import com.ajmal.phonebook.services.UserService;
 import com.ajmal.phonebook.services.impl.UserServiceImpl;
@@ -89,5 +90,24 @@ public class UserController extends Controller {
 
         return ok(JsonServiceUtil.toJsonNode(new ResponseWrapper<>("User deleted", deletedUser)));
 
+    }
+
+    @BodyParser.Of(BodyParser.Json.class)
+    public Result login(){
+        JsonNode jsonNode = request().body().asJson();
+
+        try {
+            LoginCredentials loginCridentials = objectMapper.treeToValue(jsonNode, LoginCredentials.class);
+
+            User loggedInUser = userService.login(loginCridentials);
+            if (loggedInUser == null){
+                return badRequest(JsonServiceUtil.toJsonNode(new ResponseWrapper<>("No user for the provided email/password", null)));
+            }
+            return ok(JsonServiceUtil.toJsonNode(new ResponseWrapper<>("User loggedIn", loggedInUser)));
+        } catch (JsonProcessingException e) {
+            Logger.error(e.getMessage());
+
+            return badRequest(JsonServiceUtil.toJsonNode(new ResponseWrapper<>("Can not get data", null)));
+        }
     }
 }
