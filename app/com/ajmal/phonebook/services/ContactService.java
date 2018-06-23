@@ -6,5 +6,5 @@ public interface ContactService {
 
     Contact updateContact(Contact contactToUpdate);
 
-    Contact deleteUser(long idToDelete);
+    Contact deleteContact(long idToDelete);
 }
