@@ -2,11 +2,14 @@ package com.ajmal.phonebook.services.impl;
 
 import com.ajmal.phonebook.dao.UserDao;
 import com.ajmal.phonebook.dao.impl.UserDaoImpl;
+import com.ajmal.phonebook.dto.LoginCredentials;
 import com.ajmal.phonebook.models.User;
 import com.ajmal.phonebook.services.UserService;
+import org.apache.commons.codec.binary.Base64;
 
 import javax.inject.Inject;
 import javax.inject.Named;
+import java.util.Date;
 
 
 public class UserServiceImpl implements UserService {
@@ -64,5 +67,20 @@ public class UserServiceImpl implements UserService {
 
         //Delete user and return user
         return userDao.deleteUser(userInDb);
+    }
+
+    @Override
+    public User login(LoginCredentials loginCridentials) {
+        User userInDb = userDao.findUserByUsername(loginCridentials.getUsername());
+
+
+        if (userInDb == null){
+            return null;
+        }
+        if (!userInDb.getPassword().equals(loginCridentials.getPassword())){
+            return null;
+        }
+        userInDb.setAuthToken(String.valueOf(Base64.encodeBase64((new Date().getTime()+userInDb.getFirstName()).getBytes())));
+        return userDao.updateUser(userInDb);
     }
 }
